@@ -2,22 +2,23 @@
 
 #root {
   width: 100%;
-  height: 100%;
   background: var(--c-white);
   padding: rem(128) rem(162);
   display: flex;
   flex-direction: column;
   row-gap: rem(67);
-}
 
-.container {
-  width: 100%;
-  //
-  height: 400px;
-  background-color: rebeccapurple;
-}
+  @media screen and (max-width: rem(768)) {
+    padding: rem(64);
+  }
 
-// #search::-webkit-search-cancel-button {
-//   // background-color: rebeccapurple;
-//   // margin-block: auto;
-// }
+  @media screen and (max-width: rem(576)) {
+    padding: rem(40) rem(32);
+    row-gap: rem(40);
+  }
+
+  @media screen and (max-width: rem(480)) {
+    padding: rem(32) rem(26);
+    row-gap: rem(26);
+  }
+}

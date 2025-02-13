@@ -1,9 +1,30 @@
+@use '../../styles/functions' as *;
+
 .empty {
+  $width: 100%;
+  $max-w: rem(200);
+
+  width: $width;
+  height: $width;
+  max-width: $max-w;
+  max-height: $max-w;
+  padding: rem(20);
+  margin-inline: auto;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  img {
     width: 100%;
     height: 100%;
-    z-index: 99;
-  
-    display: flex;
-    align-items: center;
-    justify-content: center;
   }
+
+  @media screen and (max-width: rem(576)) {
+    padding: rem(40);
+  }
+
+  @media screen and (max-width: rem(480)) {
+    padding: rem(60);
+  }
+}

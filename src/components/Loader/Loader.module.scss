@@ -1,9 +1,15 @@
 @use '../../styles/functions' as *;
 
 .loader {
-  width: 100%;
-  height: 100%;
-  z-index: 99;
+  $width: 100%;
+  $max-w: rem(200);
+
+  width: $width;
+  height: $width;
+  max-width: $max-w;
+  max-height: $max-w;
+  padding: rem(20);
+  margin-inline: auto;
 
   display: flex;
   align-items: center;
@@ -11,7 +17,7 @@
 }
 
 .spinner {
-  width: rem(160);
+  width: 100%;
   aspect-ratio: 1;
   border-radius: 50%;
   border: rem(16) solid;
@@ -22,5 +28,27 @@
 @keyframes spin {
   to {
     transform: rotate(0.5turn);
+  }
+}
+
+@media screen and (max-width: rem(576)) {
+  .loader {
+    padding: rem(40);
+  }
+
+  .spinner {
+    border: rem(14) solid;
+    border-color: var(--c-grey) #fff0;
+  }
+}
+
+@media screen and (max-width: rem(480)) {
+  .loader {
+    padding: rem(60);
+  }
+
+  .spinner {
+    border: rem(12) solid;
+    border-color: var(--c-grey) #fff0;
   }
 }

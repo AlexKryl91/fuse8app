@@ -10,6 +10,7 @@ async function fetchChar(name: string): Promise<TCharacter[]> {
   )
     .then((data) => data.json())
     .then((data) => {
+      // console.log(data);
       return data.results;
     })
     .catch((err) => {

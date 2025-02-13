@@ -1,0 +1,83 @@
+@use '../../styles/functions' as *;
+
+.card {
+  box-shadow: 0 rem(7) rem(25) var(--c-shadow);
+  transition: var(--trans-dur);
+
+  @media (hover: hover) {
+    &:hover {
+      box-shadow: 0 rem(7) rem(25) var(--c-shadow-violet);
+    }
+  }
+
+  &__link {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    align-content: space-between;
+    justify-content: space-between;
+    grid-template-columns: repeat(2 auto);
+    grid-template-rows: repeat(2 auto);
+
+    padding: rem(20) rem(34);
+
+    &,
+    &:visited,
+    &:focus {
+      color: var(--c-grey-dark);
+    }
+  }
+
+  &__header {
+    grid-column: 1 / span 2;
+    font-size: rem(25);
+    font-family: var(--ff-main);
+    line-height: rem(30);
+  }
+
+  &__status,
+  &__date {
+    font-size: rem(14);
+    font-family: var(--ff-sub);
+    color: var(--c-grey);
+    line-height: rem(30);
+  }
+  .alive > strong {
+    color: var(--c-green);
+  }
+  .dead > strong {
+    color: var(--c-red);
+  }
+
+  &__date {
+    text-align: right;
+  }
+}
+
+@media screen and (max-width: rem(480)) {
+  .card {
+    box-shadow: 0 rem(4) rem(8) var(--c-shadow);
+
+    &__link {
+      align-content: start;
+      grid-template-columns: 1fr;
+      padding: rem(16) rem(16);
+    }
+
+    &__header {
+      grid-column: span 1;
+      font-size: rem(20);
+      line-height: rem(22);
+      height: rem(60);
+    }
+
+    &__status,
+    &__date {
+      line-height: rem(20);
+    }
+
+    &__date {
+      text-align: left;
+    }
+  }
+}
