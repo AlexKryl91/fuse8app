@@ -1,35 +1,66 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react';
+import './App.scss';
+import fetchChar from './API/fetchChar';
+import errorHandler from './utils/errorHandler';
+import Loader from './components/Loader/Loader';
+import { TCharacter } from './types/types';
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [charName, setCharName] = useState<string>('');
+  const [results, setResults] = useState<TCharacter[]>([]);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
+
+  // + number of characters
+  // Need to get "Name - Species"
+  // + status
+  // + created
+
+  const debouncedName = useDebounce(charName, 500);
+
+  useEffect(() => {
+    if (debouncedName) {
+      setIsFetching(true);
+      fetchChar(debouncedName)
+        .then((data) => {
+          // console.log(data);
+          setResults(data.results);
+          setIsFetching(false);
+        })
+        .catch((err) => errorHandler(err));
+    } else {
+      setResults([]);
+    }
+  }, [debouncedName]);
+
+  console.log(results);
 
   return (
     <>
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <input
+          onChange={(e) => {
+            setCharName(e.target.value);
+          }}
+          className="search"
+          type="search"
+          name="search"
+          id="search"
+          placeholder="Search characters..."
+          autoFocus
+        />
+        <label htmlFor="search">{isFetching ? 'Searching...' : 'XXX'}</label>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <div className="container">{isFetching ? <Loader /> : 'RESLUTS'}</div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
+
+// locationInput(value) {
+//   clearTimeout(this.debounceId);
+//   this.debounceId = setTimeout(() => {
+//     this.locationInput = value;
+//     this.store.geoFetchHandler(value);
+//   }, 500);
+// },
