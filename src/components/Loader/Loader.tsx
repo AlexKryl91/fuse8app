@@ -1,9 +1,9 @@
-import './Loader.scss';
+import classes from './Loader.module.scss';
 
 const Loader = () => {
   return (
-    <div className="loader">
-      <div className="spinner"></div>
+    <div className={classes.loader}>
+      <div className={classes.spinner}></div>
     </div>
   );
 };

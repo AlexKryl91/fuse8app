@@ -1,0 +1,35 @@
+@use '../../styles/functions' as *;
+
+.input-wrapper {
+  display: block;
+  width: 100%;
+  max-width: rem(626);
+  margin-inline: auto;
+
+  color: var(--c-grey-dark);
+}
+
+.search {
+  width: 100%;
+  padding: rem(19) rem(25);
+
+  font-size: rem(22);
+  font-family: var(--ff-main);
+  font-weight: bold;
+  line-height: rem(26);
+
+  box-shadow: 0 rem(7) rem(21) var(--c-shadow);
+
+  &::placeholder {
+    color: var(--c-violet);
+  }
+}
+
+.label {
+  display: block;
+  margin: rem(13) rem(39) 0;
+
+  font-size: rem(16);
+  font-family: var(--ff-sub);
+  line-height: rem(20);
+}
