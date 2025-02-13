@@ -1,18 +1,17 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import './App.scss';
 import fetchChar from './API/fetchChar';
-import Loader from './components/Loader/Loader';
 import { TCharacter } from './types/types';
 import useDebounce from './hooks/useDebounce';
 import InputSearch from './components/InputSearch/InputSearch';
-import Empty from './components/Empty/Empty';
 import CardList from './components/CardList/CardList';
+import { Loader, Empty } from './components/Indicators/Indicators';
 
 function App() {
   const [isInit, setIisInit] = useState<boolean>(true);
   const [inputName, setInputName] = useState<string>('');
   const [result, setResult] = useState<TCharacter[]>([]);
-  const [isFetching, setIsFetching] = useState<boolean>(true);
+  const [isFetching, setIsFetching] = useState<boolean>(false);
 
   const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
     const name = e.target.value.trim();

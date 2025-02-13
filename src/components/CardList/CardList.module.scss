@@ -3,11 +3,11 @@
 .card-list {
   list-style: none;
   width: 100%;
-  max-width: rem(1600);
+  max-width: rem(1596);
   margin-inline: auto;
 
   display: grid;
-  grid-template-columns: repeat(6, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(rem(190), 1fr));
   grid-auto-rows: rem(150);
   gap: rem(20);
 
@@ -19,6 +19,10 @@
       grid-column: span 3;
       grid-row: span 2;
     }
+  }
+
+  @media screen and (max-width: rem(1600)) {
+    grid-template-columns: repeat(auto-fit, minmax(rem(160), 1fr));
   }
 
   @media screen and (max-width: rem(1440)) {
