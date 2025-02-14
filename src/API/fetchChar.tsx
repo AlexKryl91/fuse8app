@@ -1,18 +1,14 @@
-import { TCharacter } from '../types/types';
+import { TResponse } from '../types/types';
 import controlledFetch from './controlledFetch';
 import errorHandler from '../utils/errorHandler';
 
-async function fetchChar(name: string): Promise<TCharacter[]> {
+async function fetchChar(name: string, page: number): Promise<TResponse> {
   const encoded = encodeURIComponent(name.toLowerCase());
 
   const response = await controlledFetch(
-    `https://rickandmortyapi.com/api/character/?name=${encoded}`
+    `https://rickandmortyapi.com/api/character/?page=${page}&name=${encoded}`
   )
     .then((data) => data.json())
-    .then((data) => {
-      // console.log(data);
-      return data.results;
-    })
     .catch((err) => {
       errorHandler(err);
       return [];

@@ -1,18 +1,20 @@
-import { TCharacter } from '../../types/types';
+import { TResponse } from '../../types/types';
 import Card from './Card';
 import classes from './CardList.module.scss';
 
 type TCardList = {
-  result: TCharacter[];
+  result: TResponse | null;
 };
 
 const CardList = ({ result }: TCardList) => {
   return (
-    <ul className={classes['card-list']}>
-      {result.map((item) => (
-        <Card key={item.id} {...item} />
-      ))}
-    </ul>
+    result && (
+      <ul className={classes['card-list']}>
+        {result?.results.map((item) => (
+          <Card key={item.id} {...item} />
+        ))}
+      </ul>
+    )
   );
 };
 

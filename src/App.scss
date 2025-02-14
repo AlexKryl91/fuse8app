@@ -13,12 +13,12 @@
   }
 
   @media screen and (max-width: rem(576)) {
-    padding: rem(40) rem(32);
+    padding: rem(40) rem(32) rem(64);
     row-gap: rem(40);
   }
 
   @media screen and (max-width: rem(480)) {
-    padding: rem(32) rem(26);
+    padding: rem(32) rem(26) rem(42);
     row-gap: rem(26);
   }
 }

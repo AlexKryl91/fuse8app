@@ -1,9 +1,11 @@
+export type TAppState = 'init' | 'loading' | 'empty' | 'ready';
+
 type TPlace = {
   name: string;
   url: string;
 };
 
-type TInfo = {
+export type TInfo = {
   count: number;
   pages: number;
   next: string | null;

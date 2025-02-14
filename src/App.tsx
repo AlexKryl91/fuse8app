@@ -1,56 +1,73 @@
 import { ChangeEvent, useEffect, useState } from 'react';
 import './App.scss';
 import fetchChar from './API/fetchChar';
-import { TCharacter } from './types/types';
+import { TAppState, TResponse } from './types/types';
 import useDebounce from './hooks/useDebounce';
 import InputSearch from './components/InputSearch/InputSearch';
 import CardList from './components/CardList/CardList';
 import { Loader, Empty } from './components/Indicators/Indicators';
+import Pagination from './components/Pagination/Pagination';
 
 function App() {
-  const [isInit, setIisInit] = useState<boolean>(true);
+  const [appState, setAppState] = useState<TAppState>('init');
   const [inputName, setInputName] = useState<string>('');
-  const [result, setResult] = useState<TCharacter[]>([]);
-  const [isFetching, setIsFetching] = useState<boolean>(false);
+  const [result, setResult] = useState<TResponse | null>(null);
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-  const inputHandler = (e: ChangeEvent<HTMLInputElement>) => {
+  function inputHandler(e: ChangeEvent<HTMLInputElement>) {
     const name = e.target.value.trim();
-    setInputName(name);
-    if (!name) {
-      setIisInit(true);
+    if (name.length > 3) {
+      setInputName(name);
+      setCurrentPage(1);
     }
-  };
+    if (!name || name.length <= 3) {
+      setAppState('init');
+    }
+  }
+
+  function incrementPage() {
+    setCurrentPage(currentPage + 1);
+  }
+  function decrementPage() {
+    setCurrentPage(currentPage - 1);
+  }
 
   const debouncedName = useDebounce(inputName, 500);
 
   useEffect(() => {
-    if (debouncedName.length > 3) {
-      setIsFetching(true);
-      fetchChar(debouncedName).then((data) => {
-        setResult(data ?? []);
-        setIsFetching(false);
-        setIisInit(false);
+    if (debouncedName) {
+      setAppState('loading');
+      fetchChar(debouncedName, currentPage).then((data) => {
+        if (data.results) {
+          setResult(data);
+          setAppState('ready');
+        } else {
+          setResult(null);
+          setAppState('empty');
+        }
       });
     }
-  }, [debouncedName]);
-
-  const showEmpty = !isFetching && !isInit && result.length === 0;
-  const showCards = !showEmpty;
+  }, [debouncedName, currentPage]);
 
   return (
     <>
       <h1 className="sr-only">Find your favorite "Rick and Morty" character</h1>
 
-      <InputSearch
-        onChange={inputHandler}
-        isFetching={isFetching}
-        isInit={isInit}
-        result={result}
-      />
+      <InputSearch onChange={inputHandler} state={appState} result={result} />
 
-      {isFetching && <Loader />}
-      {showEmpty && <Empty />}
-      {showCards && <CardList result={result} />}
+      {appState === 'loading' && <Loader />}
+      {appState === 'empty' && <Empty />}
+      {appState === 'ready' && (
+        <>
+          <CardList result={result} />
+          <Pagination
+            currentPage={currentPage}
+            result={result}
+            prevHandler={decrementPage}
+            nextHandler={incrementPage}
+          />
+        </>
+      )}
     </>
   );
 }

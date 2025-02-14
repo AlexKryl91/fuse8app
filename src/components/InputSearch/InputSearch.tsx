@@ -1,28 +1,30 @@
 import classes from './InputSearch.module.scss';
 import { ChangeEvent } from 'react';
-import { TCharacter } from '../../types/types';
+import { TAppState, TResponse } from '../../types/types';
 
 type TInputSearch = {
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
-  isFetching: boolean;
-  isInit: boolean;
-  result: TCharacter[];
+  state: TAppState;
+  result: TResponse | null;
 };
 
-const InputSearch = ({
-  onChange,
-  isFetching,
-  result,
-  isInit,
-}: TInputSearch) => {
-  let status = '';
+const InputSearch = ({ onChange, state, result }: TInputSearch) => {
+  const response = result as TResponse;
 
-  if (isFetching) {
-    status = 'Searching...';
-  } else if (result.length === 0 && !isInit) {
-    status = 'No matches';
-  } else if (result.length !== 0) {
-    status = `Found characters: ${result.length}`;
+  let status;
+
+  switch (state) {
+    case 'loading':
+      status = 'Searching...';
+      break;
+    case 'empty':
+      status = 'No matches';
+      break;
+    case 'ready':
+      status = `Found characters: ${response.info.count}`;
+      break;
+    default:
+      status = '';
   }
 
   return (
